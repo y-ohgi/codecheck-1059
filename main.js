@@ -68,11 +68,11 @@ app.get('/api/projects/:id', function (req, res, next) {
     knex.select("*").from('projects').where({id:req.params.id})
 	.then(function(project){
 	    if(project.length > 0){
-	    res.json(project);
-	    return next();
-	    }
-		res.status(404).json("");
+		res.json(project);
 		return next();
+	    }
+	    res.status(404).json("");
+	    return next();
 	})
 	.catch(function(err){
 	    res.status(500).json(err);
@@ -93,15 +93,12 @@ app.delete('/api/projects/:id', function (req, res, next) {
 	    res.status(500).json(err);
 	    return next();
 	});
-    
-    // res.json('PONG');
-    // return next();
 });
 
 
 /** @ToDo
-   * Initialize database
-   * this is for 'in-memory' database and should be removed
+ * Initialize database
+ * this is for 'in-memory' database and should be removed
  */
 var sqls = require('fs')
 	.readFileSync(__dirname + '/specifications/database.sql')
